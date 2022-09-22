@@ -25,17 +25,21 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnSignIn.setOnClickListener {
+            if (!binding.edtEmail.isValid()) {
+//                binding.edtEmail.setError(true, "Email must be valid and not empty")
+                binding.edtEmail.setError(true, "Please check your email")
+            } else {
+                binding.edtEmail.setError(false, "")
+            }
+
             if (!binding.edtPassword.isValid()) {
-                binding.edtPassword.setError(true, "Password length must more than 6 characters")
+//                binding.edtPassword.setError(true, "Password length must more than 6 characters")
+                binding.edtPassword.setError(true, "Please check your password")
             } else {
                 binding.edtPassword.setError(false, "")
             }
 
-            if (!binding.edtEmail.isValid()) {
-                binding.edtEmail.setError(true, "Email must be valid and not empty")
-            } else {
-                binding.edtEmail.setError(false, "")
-            }
+
         }
     }
 

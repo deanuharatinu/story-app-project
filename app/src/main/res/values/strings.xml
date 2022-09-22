@@ -2,10 +2,15 @@
     <string name="app_name">Story App</string>
 
     <!-- Button Text -->
-    <string name="sign_in">Sign In</string>
+    <string name="button_sign_in">Sign In</string>
+    <string name="button_sign_up">Sign Up</string>
+    <string name="button_register">Doesn\'t have account? Register here</string>
 
     <!-- Text PlaceHolder -->
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
-    <string name="register_account">Register Account</string>
+    <string name="register_title">Register Account</string>
+    <string name="register_title_description">Input your credential to register a new account</string>
+    <string name="login_title">Login</string>
+    <string name="login_title_description">Input your credential before continue to Home Page</string>
 </resources>
