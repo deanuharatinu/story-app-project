@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EditTextComponent">
+        <attr name="input_type" format="integer">
+            <flag name="text" value="1" />
+            <flag name="textEmailAddress" value="2" />
+            <flag name="textPassword" value="3" />
+        </attr>
+        <attr name="text_hint" format="string" />
+    </declare-styleable>
+</resources>
