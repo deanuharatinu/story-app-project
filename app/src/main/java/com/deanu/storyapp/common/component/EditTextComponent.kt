@@ -118,7 +118,6 @@ class EditTextComponent : ConstraintLayout {
         values.recycle()
     }
 
-
     fun isValid(): Boolean {
         return when (inputType) {
             TYPE_EMAIL -> {
@@ -144,6 +143,10 @@ class EditTextComponent : ConstraintLayout {
                 ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
             tv.visibility = INVISIBLE
         }
+    }
+
+    fun getValue() : String {
+        return edt.text.toString()
     }
 
     companion object {

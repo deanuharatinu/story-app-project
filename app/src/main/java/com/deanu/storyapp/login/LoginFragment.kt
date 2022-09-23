@@ -26,27 +26,21 @@ class LoginFragment : Fragment() {
 
         binding.btnSignIn.setOnClickListener {
             if (!binding.edtEmail.isValid()) {
-//                binding.edtEmail.setError(true, "Email must be valid and not empty")
                 binding.edtEmail.setError(true, "Please check your email")
             } else {
                 binding.edtEmail.setError(false, "")
             }
 
             if (!binding.edtPassword.isValid()) {
-//                binding.edtPassword.setError(true, "Password length must more than 6 characters")
                 binding.edtPassword.setError(true, "Please check your password")
             } else {
                 binding.edtPassword.setError(false, "")
             }
+        }
 
+        binding.tvRegister.setOnClickListener {
 
         }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
-        // TODO: Use the ViewModel
     }
 
     companion object {

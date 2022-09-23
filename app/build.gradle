@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -62,6 +63,14 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     implementation "com.squareup.retrofit2:converter-gson:$gsonConverter_version"
 
+    // DI
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+
+    kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
+
+    // Network Response Adapter
+    implementation "com.github.haroldadmin:NetworkResponseAdapter:$networkAdapter_version"
 }
 
 kapt {

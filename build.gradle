@@ -13,6 +13,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 
@@ -27,6 +28,9 @@ ext {
     archLifecycle_version = "2.5.0-rc02"
     okhttp_version = "5.0.0-alpha.9"
     gsonConverter_version = "2.9.0"
+    hilt_version = '2.42'
+    androidx_hilt_version = '1.0.0-alpha03'
+    networkAdapter_version = "5.0.0"
 }
 
 

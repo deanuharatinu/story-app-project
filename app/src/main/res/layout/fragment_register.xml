@@ -39,15 +39,26 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
     <com.deanu.storyapp.common.component.EditTextComponent
-        android:id="@+id/edt_email"
+        android:id="@+id/edt_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:input_type="textEmailAddress"
-        app:layout_constraintBottom_toTopOf="@+id/edt_password"
+        app:input_type="text"
+        app:layout_constraintBottom_toTopOf="@+id/edt_email"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_title_desc"
         app:layout_constraintVertical_bias="0.4"
         app:layout_constraintVertical_chainStyle="packed"
+        app:text_hint="@string/username" />
+
+    <com.deanu.storyapp.common.component.EditTextComponent
+        android:id="@+id/edt_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:input_type="textEmailAddress"
+        app:layout_constraintBottom_toTopOf="@+id/edt_password"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edt_username"
         app:text_hint="@string/email_address" />
 
     <com.deanu.storyapp.common.component.EditTextComponent
@@ -56,13 +67,13 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         app:input_type="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/btn_sign_in"
+        app:layout_constraintBottom_toTopOf="@+id/btn_sign_up"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edt_email"
         app:text_hint="@string/password" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_sign_in"
+        android:id="@+id/btn_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
