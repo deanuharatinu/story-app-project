@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
+import com.deanu.storyapp.R
 import com.deanu.storyapp.databinding.FragmentLoginBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class LoginFragment : Fragment() {
     private lateinit var viewModel: LoginViewModel
     private val binding: FragmentLoginBinding by lazy {
@@ -39,8 +43,15 @@ class LoginFragment : Fragment() {
         }
 
         binding.tvRegister.setOnClickListener {
-
+            view.findNavController().navigate(R.id.registerFragment)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Reset error state
+        binding.edtEmail.setError(false, "")
+        binding.edtPassword.setError(false, "")
     }
 
     companion object {
