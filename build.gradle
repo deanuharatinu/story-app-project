@@ -31,6 +31,7 @@ ext {
     hilt_version = '2.42'
     androidx_hilt_version = '1.0.0-alpha03'
     networkAdapter_version = "5.0.0"
+    dataStore_version = "1.0.0"
 }
 
 

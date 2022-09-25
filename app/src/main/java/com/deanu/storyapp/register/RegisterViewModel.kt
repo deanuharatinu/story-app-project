@@ -18,7 +18,6 @@ class RegisterViewModel @Inject constructor(
     private val repository: StoryAppRepository,
     private val dispatchersProvider: DispatchersProvider
 ) : ViewModel() {
-
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 

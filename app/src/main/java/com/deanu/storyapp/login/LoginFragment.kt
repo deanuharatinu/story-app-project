@@ -4,45 +4,91 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.deanu.storyapp.R
+import com.deanu.storyapp.common.domain.model.User
+import com.deanu.storyapp.common.utils.closeKeyboard
 import com.deanu.storyapp.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class LoginFragment : Fragment() {
-    private lateinit var viewModel: LoginViewModel
-    private val binding: FragmentLoginBinding by lazy {
-        FragmentLoginBinding.inflate(layoutInflater)
-    }
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return binding.root.rootView
+    ): View {
+        _binding = FragmentLoginBinding.inflate(layoutInflater)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initListener()
+        initViewModelObserver()
+        initLoginCheck()
+    }
 
-        binding.btnSignIn.setOnClickListener {
-            if (!binding.edtEmail.isValid()) {
-                binding.edtEmail.setError(true, "Please check your email")
-            } else {
-                binding.edtEmail.setError(false, "")
+    private fun initLoginCheck() {
+        viewModel.isAlreadyLogin.observe(viewLifecycleOwner) { isAlreadyLogin ->
+            if (!isAlreadyLogin.isNullOrEmpty()) {
+                view?.findNavController()?.navigate(R.id.homeFragment)
             }
+        }
+    }
 
-            if (!binding.edtPassword.isValid()) {
+    private fun initViewModelObserver() {
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.loading.visibility = if (isLoading) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+
+        viewModel.isLoginSuccess.observe(viewLifecycleOwner) { isLoginSuccess ->
+            if (isLoginSuccess) {
+                view?.findNavController()?.navigate(R.id.homeFragment)
+            }
+        }
+
+        viewModel.loginResponse.observe(viewLifecycleOwner) { loginResponse ->
+            if (loginResponse != null && loginResponse.error == true) {
+                Toast.makeText(requireContext(), loginResponse.message, Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+    }
+
+    private fun initListener() {
+        binding.btnSignIn.setOnClickListener {
+            closeKeyboard(requireContext(), it)
+            if (!binding.edtEmail.isValid() && !binding.edtPassword.isValid()) {
+                binding.edtEmail.setError(true, "Please check your email")
+                binding.edtPassword.setError(true, "Please check your password")
+            } else if (!binding.edtEmail.isValid()) {
+                binding.edtEmail.setError(true, "Please check your email")
+            } else if (!binding.edtPassword.isValid()) {
                 binding.edtPassword.setError(true, "Please check your password")
             } else {
+                val user = User(
+                    email = binding.edtEmail.getValue(),
+                    password = binding.edtPassword.getValue()
+                )
+                binding.edtEmail.setError(false, "")
                 binding.edtPassword.setError(false, "")
+                viewModel.login(user)
             }
         }
 
         binding.tvRegister.setOnClickListener {
-            view.findNavController().navigate(R.id.registerFragment)
+            view?.findNavController()?.navigate(R.id.registerFragment)
         }
     }
 
@@ -53,9 +99,8 @@ class LoginFragment : Fragment() {
         binding.edtPassword.setError(false, "")
     }
 
-    companion object {
-        fun newInstance() = LoginFragment()
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
-
-
 }

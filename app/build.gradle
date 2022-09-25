@@ -66,11 +66,13 @@ dependencies {
     // DI
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-
     kapt "androidx.hilt:hilt-compiler:$androidx_hilt_version"
 
     // Network Response Adapter
     implementation "com.github.haroldadmin:NetworkResponseAdapter:$networkAdapter_version"
+
+    // Data Store
+    implementation "androidx.datastore:datastore-preferences:$dataStore_version"
 }
 
 kapt {

@@ -29,7 +29,6 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initListener()
         initViewModelObserver()
     }
@@ -55,7 +54,6 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(requireContext(), registerMessage, Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun initListener() {
