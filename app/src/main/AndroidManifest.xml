@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.deanu.storyapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".StoryAppApplication"
         android:allowBackup="true"

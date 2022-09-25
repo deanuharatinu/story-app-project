@@ -3,6 +3,7 @@ package com.deanu.storyapp.common.data.di
 import com.deanu.storyapp.BuildConfig
 import com.deanu.storyapp.common.data.api.ApiConstants
 import com.deanu.storyapp.common.data.api.StoryAppApi
+import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -28,6 +29,7 @@ object ApiModule {
         return Retrofit.Builder()
             .baseUrl(ApiConstants.BASE_ENDPOINT)
             .client(okHttpClient)
+            .addCallAdapterFactory(NetworkResponseAdapterFactory())
             .addConverterFactory(GsonConverterFactory.create())
     }
 

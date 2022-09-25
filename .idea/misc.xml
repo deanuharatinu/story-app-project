@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/selector_rounded_corner.xml" value="0.1145" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/component_edit_text.xml" value="0.2687306722005208" />
+        <entry key="app/src/main/res/layout/component_loading.xml" value="0.24895833333333334" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
       </map>
