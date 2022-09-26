@@ -6,6 +6,10 @@
     <string name="button_sign_up">Sign Up</string>
     <string name="button_register">Doesn\'t have account? Register here</string>
 
+    <!-- Page Title -->
+    <string name="add_new_story_title">Add New Story</string>
+    <string name="home_title">Home</string>
+
     <!-- Text PlaceHolder -->
     <string name="email_address">Email Address</string>
     <string name="password">Password</string>
@@ -19,4 +23,9 @@
     <string name="gallery">Gallery</string>
     <string name="description">Description</string>
     <string name="upload">Upload</string>
+    <string name="image_not_found">Image not found</string>
+    <string name="description_cannot_empty">Description must not be empty</string>
+    <string name="logout">Logout</string>
+    <string name="have_been_logged_out">You have been logged out</string>
+    <string name="pressback_once_again">Press Back once again to logout</string>
 </resources>

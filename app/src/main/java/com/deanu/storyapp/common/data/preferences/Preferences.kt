@@ -5,5 +5,8 @@ import kotlinx.coroutines.flow.Flow
 
 interface Preferences {
     suspend fun setLoginState(apiLoginResult: LoginResult)
+
     fun getLoginState(): Flow<String>
+
+    suspend fun deleteLoginState()
 }

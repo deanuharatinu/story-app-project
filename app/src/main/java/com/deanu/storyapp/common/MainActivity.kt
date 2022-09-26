@@ -1,7 +1,7 @@
 package com.deanu.storyapp.common
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.deanu.storyapp.R
 import dagger.hilt.android.AndroidEntryPoint
 

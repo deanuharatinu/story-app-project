@@ -32,6 +32,12 @@ class StoryAppPreferences @Inject constructor(
         }
     }
 
+    override suspend fun deleteLoginState() {
+        settingDataStore.edit { preferences ->
+            preferences.clear()
+        }
+    }
+
     companion object {
         const val PREFERENCES_NAME = "STORY_APP_PREFERENCES"
         private val TOKEN_KEY = stringPreferencesKey("token_key")

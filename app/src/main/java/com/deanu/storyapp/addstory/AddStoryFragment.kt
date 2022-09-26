@@ -17,6 +17,8 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
+import com.deanu.storyapp.R
 import com.deanu.storyapp.common.utils.createCustomTempFile
 import com.deanu.storyapp.common.utils.uriToFile
 import com.deanu.storyapp.databinding.FragmentAddStoryBinding
@@ -58,11 +60,26 @@ class AddStoryFragment : Fragment() {
                 viewModel.setImageFile(uriToFile(uri, requireContext()))
             }
         }
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            binding.loading.visibility = if (isLoading) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+        }
+
+        viewModel.addNewStoryResponse.observe(viewLifecycleOwner) { uploadMessage ->
+            if (!uploadMessage.error) {
+                view?.findNavController()?.navigateUp()
+            } else {
+                Toast.makeText(requireContext(), uploadMessage.message, Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initToolbar() {
-        // TODO: ganti pake placeholder
-        binding.tvToolbarTitle.text = "Add New Story"
+        binding.tvToolbarTitle.text = getString(R.string.add_new_story_title)
     }
 
     private fun initListener() {
@@ -82,8 +99,18 @@ class AddStoryFragment : Fragment() {
                     description,
                     imageFile
                 )
-            } else {
-                Toast.makeText(requireContext(), "Image not found", Toast.LENGTH_SHORT).show()
+            } else if (imageFile != null) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.image_not_found),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (description.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.description_cannot_empty),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

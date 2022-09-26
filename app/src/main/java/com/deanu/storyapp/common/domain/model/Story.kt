@@ -9,3 +9,8 @@ data class Story(
     val lat: Double,
     val lon: Double
 )
+
+data class UploadMessage(
+    val error: Boolean,
+    val message: String
+)

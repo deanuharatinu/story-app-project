@@ -18,12 +18,14 @@ class HomeViewModel @Inject constructor(
     private val dispatchersProvider: DispatchersProvider,
     private val apiStoryMapper: ApiStoryMapper
 ) : ViewModel() {
-
     private val _isLoading = MutableLiveData(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
     private val _storyList = MutableLiveData<List<Story>>()
     val storyList: LiveData<List<Story>> = _storyList
+
+    private val _backPressCounter = MutableLiveData(0)
+    val backPressCounter: LiveData<Int> = _backPressCounter
 
     private val _responseMessage = MutableLiveData<ApiStoryResponse>()
     val responseMessage: LiveData<ApiStoryResponse> = _responseMessage
@@ -53,5 +55,20 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun logout() {
+        viewModelScope.launch(dispatchersProvider.io()) {
+            repository.deleteLoginState()
+        }
+    }
+
+    fun incrementLogoutCounter() {
+        _backPressCounter.value = _backPressCounter.value?.plus(1)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        _backPressCounter.value = null
     }
 }

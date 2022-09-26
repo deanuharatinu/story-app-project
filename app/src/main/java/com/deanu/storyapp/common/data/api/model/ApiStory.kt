@@ -1,5 +1,6 @@
 package com.deanu.storyapp.common.data.api.model
 
+import com.deanu.storyapp.common.domain.model.UploadMessage
 import com.google.gson.annotations.SerializedName
 
 data class ApiStoryResponse(
@@ -9,7 +10,14 @@ data class ApiStoryResponse(
     val message: String? = null,
     @field:SerializedName("listStory")
     val storyList: List<ApiStory>? = null
-)
+) {
+    fun toDomain(): UploadMessage {
+        return UploadMessage(
+            error = this.error ?: false,
+            message = this.message.orEmpty()
+        )
+    }
+}
 
 data class ApiStory(
     @field:SerializedName("id")
@@ -33,4 +41,11 @@ data class ApiAddNewStoryResponse(
     val error: Boolean? = null,
     @field:SerializedName("message")
     val message: String? = null
-)
+) {
+    fun toDomain(): UploadMessage {
+        return UploadMessage(
+            error = this.error ?: false,
+            message = this.message.orEmpty()
+        )
+    }
+}

@@ -67,6 +67,7 @@ class LoginFragment : Fragment() {
 
         viewModel.isLoginSuccess.observe(viewLifecycleOwner) { isLoginSuccess ->
             if (isLoginSuccess) {
+                view?.findNavController()?.popBackStack()
                 view?.findNavController()?.navigate(R.id.homeFragment)
             }
         }

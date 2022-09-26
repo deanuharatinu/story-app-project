@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -48,8 +50,15 @@ class HomeFragment : Fragment() {
         initListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        requireActivity().onBackPressedDispatcher.addCallback(this) {
+            viewModel.incrementLogoutCounter()
+        }
+    }
+
     private fun initToolbar() {
-        binding.tvToolbarTitle.text = "Home"
+        binding.tvToolbarTitle.text = getString(R.string.home_title)
     }
 
     private fun initIsLoadingObserver() {
@@ -66,6 +75,14 @@ class HomeFragment : Fragment() {
         viewModel.token.observe(viewLifecycleOwner) { token ->
             if (!token.isNullOrEmpty()) {
                 viewModel.getStoryList(token)
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.have_been_logged_out),
+                    Toast.LENGTH_SHORT
+                ).show()
+                view?.findNavController()?.popBackStack()
+                view?.findNavController()?.navigate(R.id.loginFragment)
             }
         }
 
@@ -89,12 +106,30 @@ class HomeFragment : Fragment() {
         binding.fabAddStory.setOnClickListener {
             view?.findNavController()?.navigate(R.id.addStoryFragment)
         }
+
+        binding.btnLogout.setOnClickListener {
+            viewModel.logout()
+        }
+
+        viewModel.backPressCounter.observe(viewLifecycleOwner) { counter ->
+            if (counter == 1) {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.pressback_once_again),
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (counter == 2) {
+                viewModel.logout()
+            }
+        }
+
+        viewModel.responseMessage.observe(viewLifecycleOwner) {
+            // TODO: tampilkan message error kalau kosong datanya
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
-
 }
