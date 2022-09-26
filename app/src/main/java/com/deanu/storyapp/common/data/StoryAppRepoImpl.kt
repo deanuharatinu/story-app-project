@@ -29,4 +29,8 @@ class StoryAppRepoImpl @Inject constructor(
     override fun getLoginState(): Flow<String> {
         return preferences.getLoginState()
     }
+
+    override suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
+        return api.getStoryList("Bearer $token")
+    }
 }

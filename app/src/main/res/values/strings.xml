@@ -14,4 +14,9 @@
     <string name="login_title">Login</string>
     <string name="login_title_description">Input your credential before continue to Home Page</string>
     <string name="username">Username</string>
+    <string name="add_story">Add Story</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="description">Description</string>
+    <string name="upload">Upload</string>
 </resources>

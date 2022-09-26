@@ -1,16 +1,20 @@
 package com.deanu.storyapp.login
 
+import android.Manifest
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.deanu.storyapp.R
 import com.deanu.storyapp.common.domain.model.User
+import com.deanu.storyapp.common.utils.REQUEST_CODE_PERMISSIONS
 import com.deanu.storyapp.common.utils.closeKeyboard
+import com.deanu.storyapp.common.utils.isPermissionGranted
 import com.deanu.storyapp.databinding.FragmentLoginBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,6 +34,15 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        // Checking camera permission
+        if (!isPermissionGranted(requireContext(), arrayOf(Manifest.permission.CAMERA))) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
+
         initListener()
         initViewModelObserver()
         initLoginCheck()
