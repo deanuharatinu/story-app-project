@@ -1,12 +1,11 @@
 package com.deanu.storyapp.common.domain.repository
 
-import com.deanu.storyapp.common.data.api.model.ApiLoginResponse
-import com.deanu.storyapp.common.data.api.model.ApiRegisterResponse
-import com.deanu.storyapp.common.data.api.model.ApiStoryResponse
-import com.deanu.storyapp.common.data.api.model.LoginResult
+import com.deanu.storyapp.common.data.api.model.*
 import com.deanu.storyapp.common.domain.model.User
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 interface StoryAppRepository {
     suspend fun registerUser(user: User): NetworkResponse<ApiRegisterResponse, ApiRegisterResponse>
@@ -18,4 +17,7 @@ interface StoryAppRepository {
     fun getLoginState(): Flow<String>
 
     suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
+
+    suspend fun addNewStory(token:String, imageMultiPart: MultipartBody.Part, description: RequestBody) :
+            NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse>
 }

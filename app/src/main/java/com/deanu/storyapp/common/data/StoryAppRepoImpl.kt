@@ -7,6 +7,8 @@ import com.deanu.storyapp.common.domain.model.User
 import com.deanu.storyapp.common.domain.repository.StoryAppRepository
 import com.haroldadmin.cnradapter.NetworkResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import javax.inject.Inject
 
 class StoryAppRepoImpl @Inject constructor(
@@ -32,5 +34,17 @@ class StoryAppRepoImpl @Inject constructor(
 
     override suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
         return api.getStoryList("Bearer $token")
+    }
+
+    override suspend fun addNewStory(
+        token: String,
+        imageMultiPart: MultipartBody.Part,
+        description: RequestBody
+    ): NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse> {
+        return api.addNewStory(
+            "Bearer $token",
+            imageMultiPart,
+            description
+        )
     }
 }
