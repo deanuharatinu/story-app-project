@@ -9,12 +9,20 @@ import com.bumptech.glide.Glide
 import com.deanu.storyapp.common.domain.model.Story
 import com.deanu.storyapp.databinding.ItemStoryBinding
 
-class StoryAdapter : ListAdapter<Story, StoryAdapter.ViewHolder>(DiffCallback()) {
+class StoryAdapter constructor(
+    private val clickListener: (story: Story) -> Unit
+) : ListAdapter<Story, StoryAdapter.ViewHolder>(DiffCallback()) {
 
-    class ViewHolder(private val binding: ItemStoryBinding) :
+    class ViewHolder(
+        private val binding: ItemStoryBinding,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(story: Story) {
+        fun bind(
+            story: Story,
+            clickListener: (story: Story) -> Unit
+        ) {
+            binding.cvStory.setOnClickListener { clickListener(story) }
             // TODO: nanti ganti pake placeholder
             binding.tvUsername.text = "Uploaded by ${story.name}"
             // TODO: nanti bikin loadingnya 
@@ -38,7 +46,7 @@ class StoryAdapter : ListAdapter<Story, StoryAdapter.ViewHolder>(DiffCallback())
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val story = getItem(position)
-        holder.bind(story)
+        holder.bind(story, clickListener)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<Story>() {

@@ -97,7 +97,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapter = StoryAdapter()
+        adapter = StoryAdapter {
+
+        }
         binding.rvStory.adapter = adapter
     }
 
