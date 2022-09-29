@@ -80,6 +80,9 @@ class AddStoryFragment : Fragment() {
 
     private fun initToolbar() {
         binding.tvToolbarTitle.text = getString(R.string.add_new_story_title)
+        binding.toolbar.setNavigationOnClickListener {
+            view?.findNavController()?.navigateUp()
+        }
     }
 
     private fun initListener() {
@@ -99,7 +102,7 @@ class AddStoryFragment : Fragment() {
                     description,
                     imageFile
                 )
-            } else if (imageFile != null) {
+            } else if (imageFile == null) {
                 Toast.makeText(
                     requireContext(),
                     getString(R.string.image_not_found),

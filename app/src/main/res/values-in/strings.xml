@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story App</string>
+
+    <!-- Button Text -->
+    <string name="button_sign_in">Login</string>
+    <string name="button_sign_up">Registrasi</string>
+    <string name="button_register">Tidak memiliki akun? Registrasi di sini</string>
+
+    <!-- Page Title -->
+    <string name="add_new_story_title">Tambah Cerita Baru</string>
+    <string name="home_title">Beranda</string>
+
+    <!-- Text PlaceHolder -->
+    <string name="email_address">Alamat Email</string>
+    <string name="password">Kata Sandi</string>
+    <string name="register_title">Registrasi Akun</string>
+    <string name="register_title_description">Masukkan kredensial Anda untuk registrasi akun baru</string>
+    <string name="login_title">Login</string>
+    <string name="login_title_description">Masukkan kredensial Anda sebelum melanjutkan ke halaman Beranda</string>
+    <string name="username">Username</string>
+    <string name="add_story">Tambah Cerita</string>
+    <string name="camera">Kamera</string>
+    <string name="gallery">Galeri</string>
+    <string name="description">Deskripsi</string>
+    <string name="upload">Unggah</string>
+    <string name="image_not_found">Gambar tidak ditemukan</string>
+    <string name="description_cannot_empty">Deskripsi tidak boleh kosong</string>
+    <string name="logout">Logout</string>
+    <string name="have_been_logged_out">Anda telah logout</string>
+    <string name="pressback_once_again">Tekan "Back" sekali lagi untuk logout</string>
+    <string name="empty_data">Data Kosong</string>
+    <string name="story_details">Detail Cerita</string>
+    <string name="uploaded_by">Diupload oleh %s</string>
+</resources>
