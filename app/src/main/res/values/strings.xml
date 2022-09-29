@@ -28,4 +28,7 @@
     <string name="logout">Logout</string>
     <string name="have_been_logged_out">You have been logged out</string>
     <string name="pressback_once_again">Press Back once again to logout</string>
+    <string name="empty_data">Empty Data</string>
+    <string name="story_details">Story Details</string>
+    <string name="uploaded_by">Uploaded by %s</string>
 </resources>

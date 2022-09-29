@@ -88,21 +88,30 @@ class HomeFragment : Fragment() {
 
         viewModel.storyList.observe(viewLifecycleOwner) { storyList ->
             if (storyList.isNotEmpty()) {
-                // TODO: ketika not empty, hide empty component
+                binding.emptyPlaceholder.visibility = View.GONE
                 adapter.submitList(storyList)
             } else {
-                // TODO: ketika empty, show empty component
+                binding.emptyPlaceholder.visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.navigateToStoryDetail.observe(viewLifecycleOwner) { story ->
+            story?.let {
+                val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(
+                    story.name,
+                    story.photoUrl,
+                    story.description
+                )
+                view?.findNavController()?.navigate(action)
+                viewModel.onCardNavigated()
             }
         }
     }
 
     private fun initRecyclerView() {
-        adapter = StoryAdapter {
-
-        }
+        adapter = StoryAdapter { viewModel.onCardClicked(it) }
         binding.rvStory.adapter = adapter
     }
-
 
     private fun initListener() {
         binding.fabAddStory.setOnClickListener {

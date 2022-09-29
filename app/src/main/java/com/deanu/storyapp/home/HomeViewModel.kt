@@ -30,6 +30,17 @@ class HomeViewModel @Inject constructor(
     private val _responseMessage = MutableLiveData<ApiStoryResponse>()
     val responseMessage: LiveData<ApiStoryResponse> = _responseMessage
 
+    private val _navigateToStoryDetail = MutableLiveData<Story?>()
+    val navigateToStoryDetail: LiveData<Story?> = _navigateToStoryDetail
+
+    fun onCardClicked(story: Story) {
+        _navigateToStoryDetail.value = story
+    }
+
+    fun onCardNavigated() {
+        _navigateToStoryDetail.value = null
+    }
+
     val token: LiveData<String> = repository.getLoginState().asLiveData()
 
     fun getStoryList(token: String) {

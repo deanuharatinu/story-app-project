@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.deanu.storyapp.R
 import com.deanu.storyapp.common.domain.model.Story
 import com.deanu.storyapp.databinding.ItemStoryBinding
 
@@ -23,9 +24,11 @@ class StoryAdapter constructor(
             clickListener: (story: Story) -> Unit
         ) {
             binding.cvStory.setOnClickListener { clickListener(story) }
-            // TODO: nanti ganti pake placeholder
-            binding.tvUsername.text = "Uploaded by ${story.name}"
-            // TODO: nanti bikin loadingnya 
+            binding.tvUsername.text = binding.root.context.getString(
+                R.string.uploaded_by,
+                story.name
+            )
+            // TODO: nanti bikin loadingnya
             Glide.with(binding.root)
                 .load(story.photoUrl)
                 .into(binding.ivPhoto)
