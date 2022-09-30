@@ -1,15 +1,17 @@
 package com.deanu.storyapp.home
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.provider.Settings
+import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import com.deanu.storyapp.R
 import com.deanu.storyapp.common.utils.REQUEST_CODE_PERMISSIONS
@@ -44,10 +46,38 @@ class HomeFragment : Fragment() {
         }
 
         initToolbar()
+        initMenu()
         initRecyclerView()
         initIsLoadingObserver()
         initStoryList()
         initListener()
+    }
+
+    private fun initMenu() {
+        binding.toolbar.addMenuProvider(
+            object : MenuProvider {
+                override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                    menuInflater.inflate(R.menu.menu_home, menu)
+                }
+
+                override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                    return when (menuItem.itemId) {
+                        R.id.choose_language -> {
+                            startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
+                            true
+                        }
+                        R.id.logout -> {
+                            viewModel.logout()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+            },
+            viewLifecycleOwner,
+            Lifecycle.State.RESUMED
+        )
     }
 
     override fun onResume() {
@@ -116,10 +146,6 @@ class HomeFragment : Fragment() {
     private fun initListener() {
         binding.fabAddStory.setOnClickListener {
             view?.findNavController()?.navigate(R.id.addStoryFragment)
-        }
-
-        binding.btnLogout.setOnClickListener {
-            viewModel.logout()
         }
 
         viewModel.backPressCounter.observe(viewLifecycleOwner) { counter ->

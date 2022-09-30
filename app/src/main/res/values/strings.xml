@@ -31,4 +31,5 @@
     <string name="empty_data">Empty Data</string>
     <string name="story_details">Story Details</string>
     <string name="uploaded_by">Uploaded by %s</string>
+    <string name="choose_language">Choose Language</string>
 </resources>
