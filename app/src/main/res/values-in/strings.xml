@@ -32,4 +32,6 @@
     <string name="empty_data">Data Kosong</string>
     <string name="story_details">Detail Cerita</string>
     <string name="uploaded_by">Diupload oleh %s</string>
+    <string name="choose_language">Pilih Bahasa</string>
+    <string name="image_photo">Image Photo</string>
 </resources>

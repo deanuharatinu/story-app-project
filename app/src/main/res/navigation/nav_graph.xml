@@ -31,7 +31,7 @@
         android:id="@+id/registerFragment"
         android:name="com.deanu.storyapp.register.RegisterFragment"
         android:label="RegisterFragment"
-        tools:layout="@layout/fragment_register"/>
+        tools:layout="@layout/fragment_register" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.deanu.storyapp.home.HomeFragment"
@@ -47,11 +47,7 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_homeFragment_to_detailStoryFragment"
-            app:destination="@id/detailStoryFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/detailStoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/addStoryFragment"
@@ -62,7 +58,10 @@
         android:id="@+id/detailStoryFragment"
         android:name="com.deanu.storyapp.detailstory.DetailStoryFragment"
         android:label="fragment_detail_story"
-        tools:layout="@layout/fragment_detail_story" >
+        tools:layout="@layout/fragment_detail_story">
+        <argument
+            android:name="id"
+            app:argType="string" />
         <argument
             android:name="username"
             app:argType="string" />

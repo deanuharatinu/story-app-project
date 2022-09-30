@@ -46,6 +46,18 @@ class AddStoryFragment : Fragment() {
         initToolbar()
         initListener()
         initViewModelObserver()
+        animatePhoto()
+    }
+
+    private fun animatePhoto() {
+        val objectAnimator = ObjectAnimator.ofFloat(
+            binding.ivPhotoResult,
+            "alpha",
+            0f,
+            1f
+        )
+        objectAnimator.duration = 500
+        objectAnimator.start()
     }
 
     private fun initViewModelObserver() {
@@ -55,9 +67,11 @@ class AddStoryFragment : Fragment() {
                 val result = BitmapFactory.decodeFile(pictureFile.path)
                 binding.ivPhotoResult.setImageBitmap(result)
                 viewModel.setImageFile(pictureFile)
+                animatePhoto()
             } else {
                 binding.ivPhotoResult.setImageURI(uri)
                 viewModel.setImageFile(uriToFile(uri, requireContext()))
+                animatePhoto()
             }
         }
 
