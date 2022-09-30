@@ -30,18 +30,17 @@ class HomeViewModel @Inject constructor(
     private val _responseMessage = MutableLiveData<ApiStoryResponse>()
     val responseMessage: LiveData<ApiStoryResponse> = _responseMessage
 
-    private val _navigateToStoryDetail = MutableLiveData<Story?>()
-    val navigateToStoryDetail: LiveData<Story?> = _navigateToStoryDetail
-
-    fun onCardClicked(story: Story) {
-        _navigateToStoryDetail.value = story
-    }
-
-    fun onCardNavigated() {
-        _navigateToStoryDetail.value = null
-    }
-
     val token: LiveData<String> = repository.getLoginState().asLiveData()
+
+    private val _adapterPosition = MutableLiveData<Int>()
+
+    fun getAdapterPosition(): Int {
+        return _adapterPosition.value ?: -1
+    }
+
+    fun setAdapterPosition(adapterPosition: Int) {
+        _adapterPosition.value = adapterPosition
+    }
 
     fun getStoryList(token: String) {
         _isLoading.value = true
@@ -76,6 +75,10 @@ class HomeViewModel @Inject constructor(
 
     fun incrementLogoutCounter() {
         _backPressCounter.value = _backPressCounter.value?.plus(1)
+    }
+
+    fun resetBackPressCounter() {
+        _backPressCounter.value = 0
     }
 
     override fun onCleared() {

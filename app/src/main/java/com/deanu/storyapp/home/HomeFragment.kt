@@ -3,20 +3,26 @@ package com.deanu.storyapp.home
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.provider.Settings
 import android.view.*
 import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
 import androidx.core.view.MenuProvider
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.recyclerview.widget.RecyclerView
 import com.deanu.storyapp.R
+import com.deanu.storyapp.common.domain.model.Story
 import com.deanu.storyapp.common.utils.REQUEST_CODE_PERMISSIONS
 import com.deanu.storyapp.common.utils.isPermissionGranted
 import com.deanu.storyapp.databinding.FragmentHomeBinding
+import com.deanu.storyapp.databinding.ItemStoryBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -51,6 +57,37 @@ class HomeFragment : Fragment() {
         initIsLoadingObserver()
         initStoryList()
         initListener()
+    }
+
+    private fun scrollToPosition() {
+        binding.rvStory.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+            override fun onLayoutChange(
+                p0: View?,
+                p1: Int,
+                p2: Int,
+                p3: Int,
+                p4: Int,
+                p5: Int,
+                p6: Int,
+                p7: Int,
+                p8: Int
+            ) {
+                binding.rvStory.removeOnLayoutChangeListener(this)
+
+                if (binding.rvStory.layoutManager != null) {
+                    val layoutManager: RecyclerView.LayoutManager = binding.rvStory.layoutManager!!
+                    val viewAtPosition =
+                        layoutManager.findViewByPosition(viewModel.getAdapterPosition())
+                    if (viewAtPosition == null || layoutManager
+                            .isViewPartiallyVisible(viewAtPosition, false, true)
+                    ) {
+                        binding.rvStory.post {
+                            layoutManager.scrollToPosition(viewModel.getAdapterPosition())
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun initMenu() {
@@ -124,23 +161,36 @@ class HomeFragment : Fragment() {
                 binding.emptyPlaceholder.visibility = View.VISIBLE
             }
         }
-
-        viewModel.navigateToStoryDetail.observe(viewLifecycleOwner) { story ->
-            story?.let {
-                val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(
-                    story.name,
-                    story.photoUrl,
-                    story.description
-                )
-                view?.findNavController()?.navigate(action)
-                viewModel.onCardNavigated()
-            }
-        }
     }
 
     private fun initRecyclerView() {
-        adapter = StoryAdapter { viewModel.onCardClicked(it) }
+        adapter = StoryAdapter(viewModel) { story, binding ->
+            navigateToStoryDetail(story, binding)
+        }
         binding.rvStory.adapter = adapter
+
+        postponeEnterTransition()
+        (view?.parent as? ViewGroup)?.doOnPreDraw {
+            startPostponedEnterTransition()
+        }
+
+        scrollToPosition()
+    }
+
+    private fun navigateToStoryDetail(story: Story, binding: ItemStoryBinding) {
+        val extras = FragmentNavigatorExtras(
+            binding.tvUsername to story.id
+        )
+        val action = HomeFragmentDirections.actionHomeFragmentToDetailStoryFragment(
+            story.id,
+            story.name,
+            story.photoUrl,
+            story.description
+        )
+        view?.findNavController()?.navigate(
+            action,
+            extras
+        )
     }
 
     private fun initListener() {
@@ -155,6 +205,16 @@ class HomeFragment : Fragment() {
                     getString(R.string.pressback_once_again),
                     Toast.LENGTH_SHORT
                 ).show()
+
+                object : CountDownTimer(2000, 1000) {
+                    override fun onTick(p0: Long) {
+                        // Nothing
+                    }
+
+                    override fun onFinish() {
+                        viewModel.resetBackPressCounter()
+                    }
+                }.start()
             } else if (counter == 2) {
                 viewModel.logout()
             }
@@ -163,6 +223,11 @@ class HomeFragment : Fragment() {
         viewModel.responseMessage.observe(viewLifecycleOwner) {
             // TODO: tampilkan message error kalau kosong datanya
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.resetBackPressCounter()
     }
 
     override fun onDestroy() {
