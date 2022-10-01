@@ -73,7 +73,7 @@ class EditTextComponent : ConstraintLayout {
                 // for password checking
                 if (editable != null && inputType == TYPE_PASSWORD) {
                     isValidPassword =
-                        editable.toString().length > 6 && editable.toString().isNotEmpty()
+                        editable.toString().length >= 6 && editable.toString().isNotEmpty()
                 }
 
                 // for email checking

@@ -10,14 +10,7 @@ data class ApiStoryResponse(
     val message: String? = null,
     @field:SerializedName("listStory")
     val storyList: List<ApiStory>? = null
-) {
-    fun toDomain(): UploadMessage {
-        return UploadMessage(
-            error = this.error ?: false,
-            message = this.message.orEmpty()
-        )
-    }
-}
+)
 
 data class ApiStory(
     @field:SerializedName("id")

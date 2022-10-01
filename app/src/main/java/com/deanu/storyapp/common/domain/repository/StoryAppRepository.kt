@@ -20,6 +20,10 @@ interface StoryAppRepository {
 
     suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
 
-    suspend fun addNewStory(token:String, imageMultiPart: MultipartBody.Part, description: RequestBody) :
+    suspend fun addNewStory(
+        token: String,
+        imageMultiPart: MultipartBody.Part,
+        description: RequestBody
+    ):
             NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse>
 }
