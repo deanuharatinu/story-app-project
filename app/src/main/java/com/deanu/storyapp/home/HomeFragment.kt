@@ -1,6 +1,8 @@
 package com.deanu.storyapp.home
 
 import android.Manifest
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -18,6 +20,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.recyclerview.widget.RecyclerView
 import com.deanu.storyapp.R
+import com.deanu.storyapp.widget.StackViewWidget
+import com.deanu.storyapp.common.domain.model.BroadcastWidget
 import com.deanu.storyapp.common.domain.model.Story
 import com.deanu.storyapp.common.utils.REQUEST_CODE_PERMISSIONS
 import com.deanu.storyapp.common.utils.isPermissionGranted
@@ -157,9 +161,25 @@ class HomeFragment : Fragment() {
             if (storyList.isNotEmpty()) {
                 binding.emptyPlaceholder.visibility = View.GONE
                 adapter.submitList(storyList)
+
+                // Send broadcast
+                sendBroadcastToWidget(storyList)
             } else {
                 binding.emptyPlaceholder.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun sendBroadcastToWidget(storyList: List<Story>) {
+        if (storyList.isNotEmpty()) {
+            val broadcastWidget = BroadcastWidget(storyList)
+            val intent = Intent(requireContext(), StackViewWidget::class.java)
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+            val ids = AppWidgetManager.getInstance(requireContext())
+                .getAppWidgetIds(ComponentName(requireContext(), StackViewWidget::class.java))
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            intent.putExtra(StackViewWidget.EXTRA_DATA, broadcastWidget)
+            requireActivity().sendBroadcast(intent)
         }
     }
 
@@ -221,7 +241,7 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.responseMessage.observe(viewLifecycleOwner) {
-            // TODO: tampilkan message error kalau kosong datanya
+            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
         }
     }
 

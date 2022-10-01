@@ -34,4 +34,10 @@
     <string name="uploaded_by">Diupload oleh %s</string>
     <string name="choose_language">Pilih Bahasa</string>
     <string name="image_photo">Image Photo</string>
+    <string name="empty_story">Tidak ada cerita</string>
+
+    <!-- Widget Text -->
+    <string name="appwidget_text">Story App</string>
+    <string name="add_widget">Tambahkan Widget Story App</string>
+    <string name="app_widget_description">Sebuah Story App</string>
 </resources>

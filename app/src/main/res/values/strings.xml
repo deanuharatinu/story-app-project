@@ -33,4 +33,10 @@
     <string name="uploaded_by">Uploaded by %s</string>
     <string name="choose_language">Choose Language</string>
     <string name="image_photo">Image Photo</string>
+    <string name="empty_story">Empty Story</string>
+
+    <!-- Widget Text -->
+    <string name="appwidget_text">Story App</string>
+    <string name="add_widget">Add Story App Widget</string>
+    <string name="app_widget_description">The Story App</string>
 </resources>
