@@ -55,17 +55,13 @@ class EditTextComponent : ConstraintLayout {
                 // empty
             }
 
-            override fun onTextChanged(charSequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // for password checking
-                if (!isValidPassword && inputType == TYPE_PASSWORD) {
-                    edt.background =
-                        ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
+            override fun onTextChanged(charSequence: CharSequence, p1: Int, p2: Int, p3: Int) {
+                if (inputType == TYPE_PASSWORD) {
+                    passwordChecking(charSequence)
                 }
 
-                // for email checking
-                if (!isValidEmail && inputType == TYPE_EMAIL) {
-                    edt.background =
-                        ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
+                if (inputType == TYPE_EMAIL) {
+                    emailChecking(charSequence)
                 }
             }
 
@@ -85,6 +81,41 @@ class EditTextComponent : ConstraintLayout {
                 }
             }
         })
+    }
+
+    private fun passwordChecking(charSequence: CharSequence) {
+        if (!isValidPassword) {
+            edt.background =
+                ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
+        }
+
+        if (charSequence.toString().length >= 6 || charSequence.toString().isEmpty()) {
+            setError(false, "")
+            edt.background =
+                ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
+        } else {
+            setError(true, context.getString(R.string.password_must_more_than_6))
+            edt.background =
+                ContextCompat.getDrawable(context, R.drawable.selector_error_rounder_corner)
+        }
+    }
+
+    private fun emailChecking(charSequence: CharSequence) {
+        if (!isValidEmail) {
+            edt.background =
+                ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
+        }
+
+        val emailToCheck = charSequence.toString()
+        if (emailToCheck.isEmpty() || Patterns.EMAIL_ADDRESS.matcher(emailToCheck).matches()) {
+            setError(false, "")
+            edt.background =
+                ContextCompat.getDrawable(context, R.drawable.selector_rounded_corner)
+        } else {
+            setError(true, context.getString(R.string.email_must_valid))
+            edt.background =
+                ContextCompat.getDrawable(context, R.drawable.selector_error_rounder_corner)
+        }
     }
 
     private fun initTypedValue(attrs: AttributeSet) {
@@ -145,7 +176,7 @@ class EditTextComponent : ConstraintLayout {
         }
     }
 
-    fun getValue() : String {
+    fun getValue(): String {
         return edt.text.toString()
     }
 

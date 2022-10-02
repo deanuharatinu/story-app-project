@@ -84,12 +84,12 @@ class LoginFragment : Fragment() {
         binding.btnSignIn.setOnClickListener {
             closeKeyboard(requireContext(), it)
             if (!binding.edtEmail.isValid() && !binding.edtPassword.isValid()) {
-                binding.edtEmail.setError(true, "Please check your email")
-                binding.edtPassword.setError(true, "Please check your password")
+                binding.edtEmail.setError(true, getString(R.string.check_your_email))
+                binding.edtPassword.setError(true, getString(R.string.check_password))
             } else if (!binding.edtEmail.isValid()) {
-                binding.edtEmail.setError(true, "Please check your email")
+                binding.edtEmail.setError(true, getString(R.string.check_your_email))
             } else if (!binding.edtPassword.isValid()) {
-                binding.edtPassword.setError(true, "Please check your password")
+                binding.edtPassword.setError(true, getString(R.string.check_your_email))
             } else {
                 val user = User(
                     email = binding.edtEmail.getValue(),

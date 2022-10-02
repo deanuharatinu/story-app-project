@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import com.deanu.storyapp.R
 import com.deanu.storyapp.common.domain.model.User
 import com.deanu.storyapp.common.utils.closeKeyboard
 import com.deanu.storyapp.databinding.FragmentRegisterBinding
@@ -60,12 +61,12 @@ class RegisterFragment : Fragment() {
         binding.btnSignUp.setOnClickListener {
             closeKeyboard(requireContext(), it)
             if (!binding.edtEmail.isValid() && !binding.edtPassword.isValid()) {
-                binding.edtEmail.setError(true, "Email must be valid and not empty")
-                binding.edtPassword.setError(true, "Password length must more than 6 characters")
+                binding.edtEmail.setError(true, getString(R.string.email_must_valid))
+                binding.edtPassword.setError(true, getString(R.string.password_must_more_than_6))
             } else if (!binding.edtEmail.isValid()) {
-                binding.edtEmail.setError(true, "Email must be valid and not empty")
+                binding.edtEmail.setError(true, getString(R.string.email_must_valid))
             } else if (!binding.edtPassword.isValid()) {
-                binding.edtPassword.setError(true, "Password length must more than 6 characters")
+                binding.edtPassword.setError(true, getString(R.string.password_must_more_than_6))
             } else {
                 // Register valid
                 val user = User(

@@ -40,4 +40,10 @@
     <string name="appwidget_text">Story App</string>
     <string name="add_widget">Tambahkan Widget Story App</string>
     <string name="app_widget_description">Sebuah Story App</string>
+
+    <!-- Edit Text Component -->
+    <string name="password_must_more_than_6">Kata Sandi harus lebih dari 6 karakter</string>
+    <string name="check_your_email">Periksa kembali email Anda</string>
+    <string name="check_password">Periksa kembali kata sandi Anda</string>
+    <string name="email_must_valid">Email harus valid dan tidak boleh kosong</string>
 </resources>

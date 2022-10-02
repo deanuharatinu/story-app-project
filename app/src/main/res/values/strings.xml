@@ -39,4 +39,10 @@
     <string name="appwidget_text">Story App</string>
     <string name="add_widget">Add Story App Widget</string>
     <string name="app_widget_description">The Story App</string>
+
+    <!-- Edit Text Component -->
+    <string name="password_must_more_than_6">Password must be more than 6 characters</string>
+    <string name="check_your_email">Please check your email</string>
+    <string name="check_password">Please check your password</string>
+    <string name="email_must_valid">Email must be valid and not empty</string>
 </resources>
