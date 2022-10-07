@@ -9,10 +9,10 @@ import com.deanu.storyapp.common.domain.repository.StoryAppRepository
 import com.deanu.storyapp.common.utils.DispatchersProvider
 import com.deanu.storyapp.getOrAwaitValue
 import com.haroldadmin.cnradapter.NetworkResponse
-import junit.framework.Assert.assertEquals
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
