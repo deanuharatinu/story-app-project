@@ -40,6 +40,11 @@ android {
             includeAndroidResources = true
         }
     }
+    sourceSets {
+        androidTest {
+            assets.srcDirs = ["src/debug/assets"]
+        }
+    }
 }
 
 dependencies {
@@ -95,6 +100,9 @@ dependencies {
     // Special testing
     debugImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
     debugImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1" //TestCoroutineDispatcher
+
+    // Robolectric
+    testImplementation 'org.robolectric:robolectric:4.8'
 }
 
 kapt {
