@@ -44,6 +44,13 @@ class FakeApi : StoryAppApi {
         file: MultipartBody.Part,
         description: RequestBody
     ): NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse> {
-        TODO("Not yet implemented")
+        val response = mock(Response::class.java)
+        return if (token == "Bearer 1234567890") {
+            val responseSuccess = ApiAddNewStoryResponse(false, "success")
+            NetworkResponse.Success(responseSuccess, response)
+        } else {
+            val responseError = ApiAddNewStoryResponse(true, "failed")
+            NetworkResponse.ServerError(responseError, response)
+        }
     }
 }
