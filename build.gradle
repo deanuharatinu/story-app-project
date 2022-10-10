@@ -46,6 +46,8 @@ ext {
     activityKtx_version = "1.5.1"
     coreTesting_version = "2.1.0"
     coroutinesTest_version = "1.6.1"
+    room_version = "2.4.2"
+    pagingRuntime_version = "3.1.1"
 }
 
 

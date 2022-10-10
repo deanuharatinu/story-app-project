@@ -150,6 +150,9 @@ class HomeFragment : Fragment() {
         viewModel.token.observe(viewLifecycleOwner) { token ->
             if (!token.isNullOrEmpty()) {
                 viewModel.getStoryList(token)
+                viewModel.storyListWithPaging(token).observe(viewLifecycleOwner) {
+                    adapter.submitData(lifecycle, it)
+                }
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -161,34 +164,34 @@ class HomeFragment : Fragment() {
             }
         }
 
+
         viewModel.storyList.observe(viewLifecycleOwner) { storyList ->
             if (storyList.isNotEmpty()) {
                 binding.emptyPlaceholder.visibility = View.GONE
-                adapter.submitList(storyList)
 
-                binding.rvStory.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-                    override fun onLayoutChange(
-                        p0: View?,
-                        p1: Int,
-                        p2: Int,
-                        p3: Int,
-                        p4: Int,
-                        p5: Int,
-                        p6: Int,
-                        p7: Int,
-                        p8: Int
-                    ) {
-                        binding.rvStory.removeOnLayoutChangeListener(this)
-                        if (binding.rvStory.layoutManager != null) {
-                            val layoutManager: RecyclerView.LayoutManager =
-                                binding.rvStory.layoutManager!!
-                            binding.rvStory.post {
-                                layoutManager.scrollToPosition(0)
-                            }
-
-                        }
-                    }
-                })
+//                binding.rvStory.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+//                    override fun onLayoutChange(
+//                        p0: View?,
+//                        p1: Int,
+//                        p2: Int,
+//                        p3: Int,
+//                        p4: Int,
+//                        p5: Int,
+//                        p6: Int,
+//                        p7: Int,
+//                        p8: Int
+//                    ) {
+//                        binding.rvStory.removeOnLayoutChangeListener(this)
+//                        if (binding.rvStory.layoutManager != null) {
+//                            val layoutManager: RecyclerView.LayoutManager =
+//                                binding.rvStory.layoutManager!!
+//                            binding.rvStory.post {
+//                                layoutManager.scrollToPosition(0)
+//                            }
+//
+//                        }
+//                    }
+//                })
 
                 // Send broadcast
                 sendBroadcastToWidget(storyList)

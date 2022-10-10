@@ -21,6 +21,14 @@ interface StoryAppApi {
         @Query("location") location: Int
     ): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
 
+    @GET(ApiConstants.STORY)
+    suspend fun getStoryListWithPaging(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int,
+        @Query("location") location: Int
+    ): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
+
     @Multipart
     @POST(ApiConstants.STORY)
     suspend fun addNewStory(

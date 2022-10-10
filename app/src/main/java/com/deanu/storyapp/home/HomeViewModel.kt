@@ -1,10 +1,14 @@
 package com.deanu.storyapp.home
 
 import androidx.lifecycle.*
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.deanu.storyapp.common.data.StoryAppRepoImpl.Companion.EXCLUDE_LOCATION
 import com.deanu.storyapp.common.data.api.model.ApiStoryMapper
 import com.deanu.storyapp.common.data.api.model.ApiStoryResponse
+import com.deanu.storyapp.common.data.cache.model.CachedStory
 import com.deanu.storyapp.common.domain.model.Story
+import com.deanu.storyapp.common.domain.repository.StoryAppPagingRepo
 import com.deanu.storyapp.common.domain.repository.StoryAppRepository
 import com.deanu.storyapp.common.utils.DispatchersProvider
 import com.haroldadmin.cnradapter.NetworkResponse
@@ -16,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val repository: StoryAppRepository,
+    private val pagingRepo: StoryAppPagingRepo,
     private val dispatchersProvider: DispatchersProvider,
     private val apiStoryMapper: ApiStoryMapper
 ) : ViewModel() {
@@ -66,6 +71,10 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun storyListWithPaging(token: String): LiveData<PagingData<CachedStory>> {
+        return pagingRepo.getStoryList(token).cachedIn(viewModelScope)
     }
 
     fun logout() {

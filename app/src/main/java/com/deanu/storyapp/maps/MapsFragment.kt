@@ -1,6 +1,8 @@
 package com.deanu.storyapp.maps
 
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -88,7 +91,25 @@ class MapsFragment : Fragment() {
         googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.uiSettings.isMapToolbarEnabled = true
 
+        setMapStyle()
         addMarkers(viewModel.getStoryList())
+    }
+
+    private fun setMapStyle() {
+        try {
+            val success = googleMap?.setMapStyle(
+                MapStyleOptions.loadRawResourceStyle(
+                    requireContext(),
+                    R.raw.map_style
+                )
+            )
+
+            if (success != true) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (e: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", e)
+        }
     }
 
     private fun addMarkers(storyList: List<Story>) {
@@ -98,6 +119,7 @@ class MapsFragment : Fragment() {
             val latLng = LatLng(story.lat, story.lon)
             googleMap?.addMarker(MarkerOptions().position(latLng).title(story.name))
             boundsBuilder.include(latLng)
+
         }
 
         val bounds = boundsBuilder.build()
@@ -114,5 +136,9 @@ class MapsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    companion object {
+        const val TAG = "MapsFragment"
     }
 }

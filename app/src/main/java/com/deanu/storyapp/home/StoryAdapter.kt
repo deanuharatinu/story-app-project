@@ -4,8 +4,8 @@ import android.animation.ObjectAnimator
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -13,13 +13,14 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.deanu.storyapp.R
+import com.deanu.storyapp.common.data.cache.model.CachedStory
 import com.deanu.storyapp.common.domain.model.Story
 import com.deanu.storyapp.databinding.ItemStoryBinding
 
 class StoryAdapter constructor(
     private val viewModel: HomeViewModel,
     private val clickListener: (story: Story, binding: ItemStoryBinding) -> Unit
-) : ListAdapter<Story, StoryAdapter.ViewHolder>(DiffCallback()) {
+) : PagingDataAdapter<CachedStory, StoryAdapter.ViewHolder>(DiffCallback()) {
 
     class ViewHolder(
         private val binding: ItemStoryBinding,
@@ -96,15 +97,17 @@ class StoryAdapter constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val story = getItem(position)
-        holder.bind(story, viewModel, position, clickListener)
+        story?.let {
+            holder.bind(it.toDomain(), viewModel, position, clickListener)
+        }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<Story>() {
-        override fun areItemsTheSame(oldItem: Story, newItem: Story): Boolean {
+    class DiffCallback : DiffUtil.ItemCallback<CachedStory>() {
+        override fun areItemsTheSame(oldItem: CachedStory, newItem: CachedStory): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Story, newItem: Story): Boolean {
+        override fun areContentsTheSame(oldItem: CachedStory, newItem: CachedStory): Boolean {
             return (oldItem.photoUrl == newItem.photoUrl && oldItem.name == newItem.name)
         }
     }
