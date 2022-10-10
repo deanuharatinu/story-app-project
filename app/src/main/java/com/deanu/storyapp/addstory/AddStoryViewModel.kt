@@ -1,5 +1,6 @@
 package com.deanu.storyapp.addstory
 
+import android.location.Location
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -59,7 +60,7 @@ class AddStoryViewModel @Inject constructor(
         return _imageFile.value
     }
 
-    fun addNewStory(desc: String, imageFile: File) {
+    fun addNewStory(desc: String, imageFile: File, location: Location) {
         _isLoading.value = true
         val file = reduceFileImage(imageFile)
         val description = desc.toRequestBody("text/plain".toMediaType())
@@ -72,7 +73,14 @@ class AddStoryViewModel @Inject constructor(
 
         viewModelScope.launch(dispatchersProvider.io()) {
             repository.getLoginState().collect { token ->
-                when (val response = repository.addNewStory(token, imageMultipart, description)) {
+                when (val response =
+                    repository.addNewStory(
+                        token,
+                        imageMultipart,
+                        description,
+                        location.latitude.toFloat(),
+                        location.longitude.toFloat()
+                    )) {
                     is NetworkResponse.Success -> {
                         withContext(dispatchersProvider.main()) {
                             _isLoading.value = false

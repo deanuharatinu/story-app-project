@@ -23,7 +23,8 @@ interface StoryAppRepository {
     suspend fun addNewStory(
         token: String,
         imageMultiPart: MultipartBody.Part,
-        description: RequestBody
-    ):
-            NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse>
+        description: RequestBody,
+        lat: Float,
+        lon: Float
+    ): NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse>
 }

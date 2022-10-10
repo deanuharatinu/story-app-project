@@ -1,28 +1,37 @@
 package com.deanu.storyapp.addstory
 
+import android.Manifest
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
 import android.content.Intent.createChooser
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.deanu.storyapp.R
+import com.deanu.storyapp.common.utils.REQUEST_CODE_PERMISSIONS
 import com.deanu.storyapp.common.utils.createCustomTempFile
+import com.deanu.storyapp.common.utils.isPermissionGranted
 import com.deanu.storyapp.common.utils.uriToFile
 import com.deanu.storyapp.databinding.FragmentAddStoryBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -33,6 +42,12 @@ class AddStoryFragment : Fragment() {
     private val viewModel: AddStoryViewModel by viewModels()
     private lateinit var currentPhotoPath: String
     private lateinit var selectedImage: Uri
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private val permissions = arrayOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +59,50 @@ class AddStoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+
+        initLocationListener()
         initToolbar()
         initListener()
         initViewModelObserver()
         animatePhoto()
+    }
+
+    private fun initLocationListener() {
+        if (!isPermissionGranted(requireContext(), permissions)) {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                permissions,
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getUserLocation(description: String, imageFile: File) {
+        if (isPermissionGranted(requireContext(), permissions)) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                if (location != null) {
+                    Log.d(
+                        "location",
+                        "getUserLocation: ${location.latitude} and  ${location.longitude}"
+                    )
+                    viewModel.addNewStory(description, imageFile, location)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Location is not found. Try Again",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                permissions,
+                REQUEST_CODE_PERMISSIONS
+            )
+        }
     }
 
     private fun animatePhoto() {
@@ -113,10 +168,7 @@ class AddStoryFragment : Fragment() {
             val imageFile = viewModel.getImageFile()
             val description = binding.edtDescription.text.toString()
             if (imageFile != null && description.isNotEmpty()) {
-                viewModel.addNewStory(
-                    description,
-                    imageFile
-                )
+                getUserLocation(description, imageFile)
             } else if (imageFile == null) {
                 Toast.makeText(
                     requireContext(),

@@ -1,6 +1,7 @@
 package com.deanu.storyapp.addstory
 
 import android.app.Application
+import android.location.Location
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.deanu.storyapp.TestCoroutineRule
 import com.deanu.storyapp.common.data.api.model.ApiAddNewStoryResponse
@@ -60,15 +61,29 @@ class AddStoryViewModelTest {
         )
         val app = RuntimeEnvironment.getApplication() as Application
         val imageFile = getImageAsset("thunderbird.png", app.applicationContext)
-        `when`(repository.addNewStory(anyObject(), anyObject(), anyObject()))
+        `when`(
+            repository.addNewStory(
+                anyObject(),
+                anyObject(),
+                anyObject(),
+                anyObject(),
+                anyObject()
+            )
+        )
             .thenReturn(response)
 
         // When
-        addStoryViewModel.addNewStory("description text", imageFile)
+        addStoryViewModel.addNewStory("description text", imageFile, mock(Location::class.java))
         val actualValue = addStoryViewModel.addNewStoryResponse.getOrAwaitValue()
 
         // Then
-        verify(repository).addNewStory(anyObject(), anyObject(), anyObject())
+        verify(repository).addNewStory(
+            anyObject(),
+            anyObject(),
+            anyObject(),
+            anyObject(),
+            anyObject()
+        )
         assertEquals(expectedValue, actualValue.message)
     }
 
@@ -82,15 +97,29 @@ class AddStoryViewModelTest {
         )
         val app = RuntimeEnvironment.getApplication() as Application
         val imageFile = getImageAsset("thunderbird.png", app.applicationContext)
-        `when`(repository.addNewStory(anyObject(), anyObject(), anyObject()))
+        `when`(
+            repository.addNewStory(
+                anyObject(),
+                anyObject(),
+                anyObject(),
+                anyObject(),
+                anyObject()
+            )
+        )
             .thenReturn(response)
 
         // When
-        addStoryViewModel.addNewStory("description text", imageFile)
+        addStoryViewModel.addNewStory("description text", imageFile, mock(Location::class.java))
         val actualValue = addStoryViewModel.addNewStoryResponse.getOrAwaitValue()
 
         // Then
-        verify(repository).addNewStory(anyObject(), anyObject(), anyObject())
+        verify(repository).addNewStory(
+            anyObject(),
+            anyObject(),
+            anyObject(),
+            anyObject(),
+            anyObject()
+        )
         assertEquals(expectedValue, actualValue.message)
     }
 }

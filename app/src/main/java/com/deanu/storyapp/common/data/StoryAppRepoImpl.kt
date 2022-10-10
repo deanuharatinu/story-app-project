@@ -43,12 +43,16 @@ class StoryAppRepoImpl @Inject constructor(
     override suspend fun addNewStory(
         token: String,
         imageMultiPart: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
+        lat: Float,
+        lon: Float
     ): NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse> {
         return api.addNewStory(
             "Bearer $token",
             imageMultiPart,
-            description
+            description,
+            lat,
+            lon
         )
     }
 }

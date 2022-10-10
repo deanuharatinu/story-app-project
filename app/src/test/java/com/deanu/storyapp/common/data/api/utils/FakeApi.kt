@@ -42,7 +42,9 @@ class FakeApi : StoryAppApi {
     override suspend fun addNewStory(
         token: String,
         file: MultipartBody.Part,
-        description: RequestBody
+        description: RequestBody,
+        latitude: Float,
+        longitude: Float
     ): NetworkResponse<ApiAddNewStoryResponse, ApiAddNewStoryResponse> {
         val response = mock(Response::class.java)
         return if (token == "Bearer 1234567890") {

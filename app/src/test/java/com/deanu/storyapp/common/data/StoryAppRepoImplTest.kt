@@ -207,7 +207,9 @@ class StoryAppRepoImplTest {
         val response = repository.addNewStory(
             token,
             mock(MultipartBody.Part::class.java),
-            mock(RequestBody::class.java)
+            mock(RequestBody::class.java),
+            0.0F,
+            0.0F
         )
 
         // Then
@@ -224,7 +226,7 @@ class StoryAppRepoImplTest {
         val response = repository.addNewStory(
             token,
             mock(MultipartBody.Part::class.java),
-            mock(RequestBody::class.java)
+            mock(RequestBody::class.java), 0.0F, 0.0F
         ) as NetworkResponse.Success<ApiAddNewStoryResponse, ApiAddNewStoryResponse>
         val responseMessage = response.body.message
 
@@ -241,7 +243,8 @@ class StoryAppRepoImplTest {
         val response = repository.addNewStory(
             token,
             mock(MultipartBody.Part::class.java),
-            mock(RequestBody::class.java)
+            mock(RequestBody::class.java),
+            0.0F, 0.0F
         )
 
         // Then
@@ -258,7 +261,9 @@ class StoryAppRepoImplTest {
         val response = repository.addNewStory(
             token,
             mock(MultipartBody.Part::class.java),
-            mock(RequestBody::class.java)
+            mock(RequestBody::class.java),
+            0.0F,
+            0.0F
         ) as NetworkResponse.ServerError<ApiAddNewStoryResponse, ApiAddNewStoryResponse>
         val actualMessage = response.body?.message
 
