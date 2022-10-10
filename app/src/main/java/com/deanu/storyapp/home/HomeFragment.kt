@@ -107,6 +107,10 @@ class HomeFragment : Fragment() {
                             startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                             true
                         }
+                        R.id.open_maps -> {
+                            view?.findNavController()?.navigate(R.id.mapsFragment)
+                            true
+                        }
                         R.id.logout -> {
                             viewModel.logout()
                             true

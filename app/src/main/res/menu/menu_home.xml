@@ -4,6 +4,9 @@
         android:id="@+id/choose_language"
         android:title="@string/choose_language" />
     <item
+        android:id="@+id/open_maps"
+        android:title="@string/open_maps" />
+    <item
         android:id="@+id/logout"
         android:title="@string/logout" />
 </menu>

@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_homeFragment_to_detailStoryFragment"
             app:destination="@id/detailStoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
     </fragment>
     <fragment
         android:id="@+id/addStoryFragment"
@@ -72,4 +75,9 @@
             android:name="description"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.deanu.storyapp.maps.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" />
 </navigation>

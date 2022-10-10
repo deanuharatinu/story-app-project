@@ -46,4 +46,5 @@
     <string name="check_your_email">Periksa kembali email Anda</string>
     <string name="check_password">Periksa kembali kata sandi Anda</string>
     <string name="email_must_valid">Email harus valid dan tidak boleh kosong</string>
+    <string name="open_maps">Open maps</string>
 </resources>

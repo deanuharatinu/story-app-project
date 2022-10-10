@@ -245,7 +245,7 @@ class StoryAppRepoImplTest {
         )
 
         // Then
-        assertThat(response, instanceOf(NetworkResponse.ServerError::class.java))
+        assertThat(response, instanceOf(NetworkResponse.Error::class.java))
     }
 
     @Test
