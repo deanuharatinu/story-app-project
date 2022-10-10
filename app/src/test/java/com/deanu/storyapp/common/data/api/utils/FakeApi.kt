@@ -35,7 +35,7 @@ class FakeApi : StoryAppApi {
         }
     }
 
-    override suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
+    override suspend fun getStoryList(token: String, location: Int): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
         TODO("Not yet implemented")
     }
 

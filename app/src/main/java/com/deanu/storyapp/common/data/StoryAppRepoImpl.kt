@@ -36,8 +36,11 @@ class StoryAppRepoImpl @Inject constructor(
         preferences.deleteLoginState()
     }
 
-    override suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
-        return api.getStoryList("Bearer $token")
+    override suspend fun getStoryList(
+        token: String,
+        includeLocation: Int
+    ): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
+        return api.getStoryList("Bearer $token", includeLocation)
     }
 
     override suspend fun addNewStory(
@@ -54,5 +57,10 @@ class StoryAppRepoImpl @Inject constructor(
             lat,
             lon
         )
+    }
+
+    companion object {
+        const val INCLUDE_LOCATION = 1
+        const val EXCLUDE_LOCATION = 0
     }
 }

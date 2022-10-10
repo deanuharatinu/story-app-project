@@ -18,7 +18,7 @@ interface StoryAppRepository {
 
     fun getLoginState(): Flow<String>
 
-    suspend fun getStoryList(token: String): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
+    suspend fun getStoryList(token: String, includeLocation: Int): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
 
     suspend fun addNewStory(
         token: String,

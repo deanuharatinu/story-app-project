@@ -1,7 +1,7 @@
-package com.deanu.storyapp.home
+package com.deanu.storyapp.maps
 
 import androidx.lifecycle.*
-import com.deanu.storyapp.common.data.StoryAppRepoImpl.Companion.EXCLUDE_LOCATION
+import com.deanu.storyapp.common.data.StoryAppRepoImpl.Companion.INCLUDE_LOCATION
 import com.deanu.storyapp.common.data.api.model.ApiStoryMapper
 import com.deanu.storyapp.common.data.api.model.ApiStoryResponse
 import com.deanu.storyapp.common.domain.model.Story
@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MapsViewModel @Inject constructor(
     private val repository: StoryAppRepository,
     private val dispatchersProvider: DispatchersProvider,
     private val apiStoryMapper: ApiStoryMapper
@@ -25,28 +25,15 @@ class HomeViewModel @Inject constructor(
     private val _storyList = MutableLiveData<List<Story>>()
     val storyList: LiveData<List<Story>> = _storyList
 
-    private val _backPressCounter = MutableLiveData(0)
-    val backPressCounter: LiveData<Int> = _backPressCounter
-
     private val _responseMessage = MutableLiveData<ApiStoryResponse>()
     val responseMessage: LiveData<ApiStoryResponse> = _responseMessage
 
     val token: LiveData<String> = repository.getLoginState().asLiveData()
 
-    private val _adapterPosition = MutableLiveData<Int>()
-
-    fun getAdapterPosition(): Int {
-        return _adapterPosition.value ?: -1
-    }
-
-    fun setAdapterPosition(adapterPosition: Int) {
-        _adapterPosition.value = adapterPosition
-    }
-
     fun getStoryList(token: String) {
         _isLoading.value = true
         viewModelScope.launch(dispatchersProvider.io()) {
-            when (val response = repository.getStoryList(token, EXCLUDE_LOCATION)) {
+            when (val response = repository.getStoryList(token, INCLUDE_LOCATION)) {
                 is NetworkResponse.Success -> {
                     withContext(dispatchersProvider.main()) {
                         _isLoading.value = false
@@ -68,22 +55,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun logout() {
-        viewModelScope.launch(dispatchersProvider.io()) {
-            repository.deleteLoginState()
-        }
-    }
-
-    fun incrementLogoutCounter() {
-        _backPressCounter.value = _backPressCounter.value?.plus(1)
-    }
-
-    fun resetBackPressCounter() {
-        _backPressCounter.value = 0
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        _backPressCounter.value = null
+    fun getStoryList(): List<Story> {
+        return _storyList.value.orEmpty()
     }
 }

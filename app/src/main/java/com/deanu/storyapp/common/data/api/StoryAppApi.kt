@@ -16,8 +16,10 @@ interface StoryAppApi {
             NetworkResponse<ApiLoginResponse, ApiLoginResponse>
 
     @GET(ApiConstants.STORY)
-    suspend fun getStoryList(@Header("Authorization") token: String):
-            NetworkResponse<ApiStoryResponse, ApiStoryResponse>
+    suspend fun getStoryList(
+        @Header("Authorization") token: String,
+        @Query("location") location: Int
+    ): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
 
     @Multipart
     @POST(ApiConstants.STORY)
