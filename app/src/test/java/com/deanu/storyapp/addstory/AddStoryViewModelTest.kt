@@ -66,11 +66,10 @@ class AddStoryViewModelTest {
                 anyObject(),
                 anyObject(),
                 anyObject(),
-                anyObject(),
-                anyObject()
+                anyFloat(),
+                anyFloat()
             )
-        )
-            .thenReturn(response)
+        ).thenReturn(response)
 
         // When
         addStoryViewModel.addNewStory("description text", imageFile, mock(Location::class.java))
@@ -81,8 +80,8 @@ class AddStoryViewModelTest {
             anyObject(),
             anyObject(),
             anyObject(),
-            anyObject(),
-            anyObject()
+            anyFloat(),
+            anyFloat()
         )
         assertEquals(expectedValue, actualValue.message)
     }
@@ -102,8 +101,8 @@ class AddStoryViewModelTest {
                 anyObject(),
                 anyObject(),
                 anyObject(),
-                anyObject(),
-                anyObject()
+                anyFloat(),
+                anyFloat()
             )
         )
             .thenReturn(response)
@@ -117,8 +116,8 @@ class AddStoryViewModelTest {
             anyObject(),
             anyObject(),
             anyObject(),
-            anyObject(),
-            anyObject()
+            anyFloat(),
+            anyFloat()
         )
         assertEquals(expectedValue, actualValue.message)
     }

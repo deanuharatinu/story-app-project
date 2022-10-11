@@ -34,4 +34,8 @@ class RoomCache @Inject constructor(
     override suspend fun deleteAndInsertRemoteKeys(remoteKeys: List<RemoteKeys>) {
         remoteKeysDao.deleteAndInsertRemoteKeys(remoteKeys)
     }
+
+    override suspend fun getStory(): List<CachedStory> {
+        return storyAppDao.getStories()
+    }
 }

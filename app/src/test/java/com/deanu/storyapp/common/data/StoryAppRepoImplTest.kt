@@ -6,7 +6,7 @@ import com.deanu.storyapp.common.data.api.model.ApiAddNewStoryResponse
 import com.deanu.storyapp.common.data.api.model.ApiLoginResponse
 import com.deanu.storyapp.common.data.api.model.ApiRegisterResponse
 import com.deanu.storyapp.common.data.api.model.LoginResult
-import com.deanu.storyapp.common.data.api.utils.FakeApi
+import com.deanu.storyapp.common.data.api.utils.FakeStoryApi
 import com.deanu.storyapp.common.data.preferences.utils.FakePreferences
 import com.deanu.storyapp.common.domain.model.User
 import com.deanu.storyapp.common.domain.repository.StoryAppRepository
@@ -39,7 +39,7 @@ class StoryAppRepoImplTest {
 
     @Before
     fun setup() {
-        api = FakeApi()
+        api = FakeStoryApi()
         preferences = FakePreferences()
         repository = StoryAppRepoImpl(api, preferences)
     }

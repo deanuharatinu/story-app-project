@@ -20,7 +20,7 @@ import com.deanu.storyapp.databinding.ItemStoryBinding
 class StoryAdapter constructor(
     private val viewModel: HomeViewModel,
     private val clickListener: (story: Story, binding: ItemStoryBinding) -> Unit
-) : PagingDataAdapter<CachedStory, StoryAdapter.ViewHolder>(DiffCallback()) {
+) : PagingDataAdapter<CachedStory, StoryAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     class ViewHolder(
         private val binding: ItemStoryBinding,
@@ -102,13 +102,15 @@ class StoryAdapter constructor(
         }
     }
 
-    class DiffCallback : DiffUtil.ItemCallback<CachedStory>() {
-        override fun areItemsTheSame(oldItem: CachedStory, newItem: CachedStory): Boolean {
-            return oldItem.id == newItem.id
-        }
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CachedStory>() {
+            override fun areItemsTheSame(oldItem: CachedStory, newItem: CachedStory): Boolean {
+                return oldItem.id == newItem.id
+            }
 
-        override fun areContentsTheSame(oldItem: CachedStory, newItem: CachedStory): Boolean {
-            return (oldItem.photoUrl == newItem.photoUrl && oldItem.name == newItem.name)
+            override fun areContentsTheSame(oldItem: CachedStory, newItem: CachedStory): Boolean {
+                return (oldItem.photoUrl == newItem.photoUrl && oldItem.name == newItem.name)
+            }
         }
     }
 }

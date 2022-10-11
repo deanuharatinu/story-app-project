@@ -11,4 +11,5 @@ interface Cache {
     suspend fun getRemoteKeysId(id: String): RemoteKeys?
     suspend fun deleteAndInsertRemoteKeys(remoteKeys: List<RemoteKeys>)
     suspend fun insertRemoteKeys(remoteKeys: List<RemoteKeys>)
+    suspend fun getStory(): List<CachedStory>
 }

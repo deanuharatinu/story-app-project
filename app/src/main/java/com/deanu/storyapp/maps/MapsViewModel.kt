@@ -26,7 +26,6 @@ class MapsViewModel @Inject constructor(
     val storyList: LiveData<List<Story>> = _storyList
 
     private val _responseMessage = MutableLiveData<ApiStoryResponse>()
-    val responseMessage: LiveData<ApiStoryResponse> = _responseMessage
 
     val token: LiveData<String> = repository.getLoginState().asLiveData()
 

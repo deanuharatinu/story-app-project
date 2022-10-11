@@ -20,4 +20,7 @@ interface StoryAppDao {
         deleteAllStory()
         insertStory(storyList)
     }
+
+    @Query("SELECT * FROM story")
+    suspend fun getStories(): List<CachedStory>
 }
