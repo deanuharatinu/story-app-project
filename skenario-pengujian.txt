@@ -1,0 +1,79 @@
+**Test Cases:**
+
+- **RegisterViewModel**
+    - Register User
+        - Saat NetworkResponse.Success
+            - registerMessage = “User created”
+            - isUserCreated = true
+            - repository.registerUser invoked 1 time
+        - Saat NetworkResponse.Error
+            - registerMessage = “Email is already taken”
+            - isUserCreated = false
+            - repository.registerUser invoked 1 time
+- **Repository**
+    - Registration
+        - Saat Registrasi success:
+            - Responsenya NetworkResponse.Success
+            - Response message =  “User created”
+        - Saat Registrasi Failed:
+            - responsenya NetworkResponse.Error
+            - Response message =  “Email is already taken”
+    - Login User
+        - Saat Login Succes:
+            - Responsenya NetworkResponse.Success
+            - Response message = “success”
+        - Saat Login Failed:
+            - Responsenya NetworkResponse.Error
+            - Response message = “User not found”
+        - Login State:
+            - Saat setLoginState dipanggil, token diset ke preference
+            - Saat getLoginState dipanggil sebelum setLoginState, nilainya tidak null (skenario data kosong)
+            - Saat deleteLoginState, token diset menjadi empty string ()
+    - Add New Story
+        - Saat Add New Story Success:
+            - Responsenya NetworkResponse.Success
+            - Response message = “success”
+        - Saat Add New Story Gagal:
+            - Responsenya NetworkResponse.Error
+            - Response message = “failed”
+- **LoginViewModel**
+    - Login User
+        - Saat login success
+            - isLoginSuccess = true
+            - repository.setLogin called 1 time
+        - Saat login failed
+            - isLoginSuccess = false
+        - Saat already login
+            - isAlreadyLogin ≠ empty string
+        - Saat not already login
+            - isAlreadyLogin = empty string
+- **AddNewStoryViewModel**
+    - Saat success
+        - repository.addNewStory dipanggil 1 kali
+        - message = success
+    - Saat error
+        - repository.addNewStory dipanggil 1 kali
+        - messsage = failed
+- **HomeViewModel**
+    - Saat ada data
+        - PagingData tidak null
+        - Terdapat isi dengan size yang sesuai
+    - Saat tidak ada data (skenario data kosong)
+        - PagingData tidak null
+        - Terdapat isi berupa empty list
+- **StoryRemoteMediatorTest (Medium Test)**
+    - Return Success
+        - Saat ada data
+        - Saat tidak ada data (skenario data kosong)
+    - Load Data Remote Mediator
+        - Saat data didapatkan dari network, database mengembalikan data yang sama
+        - Saat data tidak didapatkan dari network, database mengembalikan empty list (skenario data kosong)
+- MapsViewModel
+    - Saat Success
+        - repository.getStoryList dipanggil 1 kali
+        - Size data yang didapatkan, sesuai dengan size data dumy
+    - Saat Failed
+        - repository.getStoryList dipanggil 1 kali
+        - Size datanya 0, empty list (skenario data kosong)
+- LoginFragment (Large Test)
+    - Show home fragment saat berhasil login
