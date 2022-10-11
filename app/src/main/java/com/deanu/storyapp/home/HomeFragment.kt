@@ -85,8 +85,11 @@ class HomeFragment : Fragment() {
                     if (viewAtPosition == null || layoutManager
                             .isViewPartiallyVisible(viewAtPosition, false, true)
                     ) {
+                        val position = viewModel.getAdapterPosition()
                         binding.rvStory.post {
-                            layoutManager.scrollToPosition(viewModel.getAdapterPosition())
+                            layoutManager.scrollToPosition(
+                                if (position == -1) 0 else position
+                            )
                         }
                     }
                 }
@@ -130,6 +133,10 @@ class HomeFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             viewModel.incrementLogoutCounter()
         }
+
+        if (viewModel.getAdapterPosition() == -1) {
+            scrollToPosition()
+        }
     }
 
     private fun initToolbar() {
@@ -149,10 +156,7 @@ class HomeFragment : Fragment() {
     private fun initStoryList() {
         viewModel.token.observe(viewLifecycleOwner) { token ->
             if (!token.isNullOrEmpty()) {
-                viewModel.getStoryList(token)
-                viewModel.storyListWithPaging(token).observe(viewLifecycleOwner) {
-                    adapter.submitData(lifecycle, it)
-                }
+                showStoryList(token)
             } else {
                 Toast.makeText(
                     requireContext(),
@@ -164,40 +168,22 @@ class HomeFragment : Fragment() {
             }
         }
 
-
         viewModel.storyList.observe(viewLifecycleOwner) { storyList ->
             if (storyList.isNotEmpty()) {
-                binding.emptyPlaceholder.visibility = View.GONE
-
-//                binding.rvStory.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
-//                    override fun onLayoutChange(
-//                        p0: View?,
-//                        p1: Int,
-//                        p2: Int,
-//                        p3: Int,
-//                        p4: Int,
-//                        p5: Int,
-//                        p6: Int,
-//                        p7: Int,
-//                        p8: Int
-//                    ) {
-//                        binding.rvStory.removeOnLayoutChangeListener(this)
-//                        if (binding.rvStory.layoutManager != null) {
-//                            val layoutManager: RecyclerView.LayoutManager =
-//                                binding.rvStory.layoutManager!!
-//                            binding.rvStory.post {
-//                                layoutManager.scrollToPosition(0)
-//                            }
-//
-//                        }
-//                    }
-//                })
-
                 // Send broadcast
                 sendBroadcastToWidget(storyList)
-            } else {
-                binding.emptyPlaceholder.visibility = View.VISIBLE
             }
+        }
+    }
+
+    private fun showStoryList(token: String) {
+        viewModel.getStoryList(token)
+        val adapterPosition = viewModel.getAdapterPosition()
+        viewModel.storyListWithPaging(
+            token,
+            adapterPosition == -1
+        ).observe(viewLifecycleOwner) {
+            adapter.submitData(viewLifecycleOwner.lifecycle, it)
         }
     }
 
@@ -218,7 +204,13 @@ class HomeFragment : Fragment() {
         adapter = StoryAdapter(viewModel) { story, binding ->
             navigateToStoryDetail(story, binding)
         }
-        binding.rvStory.adapter = adapter
+        adapter.stateRestorationPolicy =
+            RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        binding.rvStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
 
         postponeEnterTransition()
         (view?.parent as? ViewGroup)?.doOnPreDraw {
@@ -246,6 +238,7 @@ class HomeFragment : Fragment() {
 
     private fun initListener() {
         binding.fabAddStory.setOnClickListener {
+            viewModel.setAdapterPosition(-1)
             view?.findNavController()?.navigate(R.id.addStoryFragment)
         }
 
@@ -284,5 +277,6 @@ class HomeFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        viewModel.setAdapterPosition(-1)
     }
 }

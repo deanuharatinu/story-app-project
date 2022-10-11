@@ -121,6 +121,7 @@ class AddStoryFragment : Fragment() {
             if (viewModel.isTakenFromCamera()) {
                 val pictureFile = File(currentPhotoPath)
                 val result = BitmapFactory.decodeFile(pictureFile.path)
+
                 binding.ivPhotoResult.setImageBitmap(result)
                 viewModel.setImageFile(pictureFile)
                 animatePhoto()

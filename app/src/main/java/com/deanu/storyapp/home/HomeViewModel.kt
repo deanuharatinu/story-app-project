@@ -49,12 +49,10 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getStoryList(token: String) {
-        _isLoading.value = true
         viewModelScope.launch(dispatchersProvider.io()) {
             when (val response = repository.getStoryList(token, EXCLUDE_LOCATION)) {
                 is NetworkResponse.Success -> {
                     withContext(dispatchersProvider.main()) {
-                        _isLoading.value = false
                         _storyList.value = response.body.storyList?.map { apiStory ->
                             apiStoryMapper.mapToDomain(apiStory)
                         }
@@ -62,7 +60,6 @@ class HomeViewModel @Inject constructor(
                 }
                 is NetworkResponse.Error -> {
                     withContext(dispatchersProvider.main()) {
-                        _isLoading.value = false
                         response.body?.let {
                             _responseMessage.value = it
                         }
@@ -73,8 +70,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun storyListWithPaging(token: String): LiveData<PagingData<CachedStory>> {
-        return pagingRepo.getStoryList(token).cachedIn(viewModelScope)
+    fun storyListWithPaging(
+        token: String,
+        initialRefresh: Boolean
+    ): LiveData<PagingData<CachedStory>> {
+        return pagingRepo.getStoryList(token, initialRefresh).cachedIn(viewModelScope)
     }
 
     fun logout() {

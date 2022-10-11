@@ -14,5 +14,5 @@ interface StoryAppPagingRepo {
         includeLocation: Int
     ): NetworkResponse<ApiStoryResponse, ApiStoryResponse>
 
-    fun getStoryList(token: String): LiveData<PagingData<CachedStory>>
+    fun getStoryList(token: String, isInitialRefresh: Boolean): LiveData<PagingData<CachedStory>>
 }

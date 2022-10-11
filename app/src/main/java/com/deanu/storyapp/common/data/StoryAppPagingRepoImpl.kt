@@ -24,14 +24,16 @@ class StoryAppPagingRepoImpl @Inject constructor(
         return api.getStoryListWithPaging("Bearer $token", page, size, includeLocation)
     }
 
-    override fun getStoryList(token: String): LiveData<PagingData<CachedStory>> {
+    override fun getStoryList(
+        token: String,
+        isInitialRefresh: Boolean
+    ): LiveData<PagingData<CachedStory>> {
         @OptIn(ExperimentalPagingApi::class)
-        // TODO: page sizenya masih 5 aja
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(cache, storyAppApi, token),
+            remoteMediator = StoryRemoteMediator(cache, storyAppApi, token, isInitialRefresh),
             pagingSourceFactory = { cache.getAllStory() }
         ).liveData
     }

@@ -5,6 +5,7 @@ import androidx.room.Room
 import com.deanu.storyapp.common.data.cache.Cache
 import com.deanu.storyapp.common.data.cache.RoomCache
 import com.deanu.storyapp.common.data.cache.StoryAppDatabase
+import com.deanu.storyapp.common.data.cache.daos.RemoteKeysDao
 import com.deanu.storyapp.common.data.cache.daos.StoryAppDao
 import dagger.Binds
 import dagger.Module
@@ -30,12 +31,17 @@ abstract class CacheModule {
                 context,
                 StoryAppDatabase::class.java,
                 DATABASE_NAME
-            ).build()
+            ).fallbackToDestructiveMigration().build()
         }
 
         @Provides
         fun provideStoryAppDao(storyAppDatabase: StoryAppDatabase): StoryAppDao {
             return storyAppDatabase.storyAppDao()
+        }
+
+        @Provides
+        fun provideRemoteKeysDao(storyAppDatabase: StoryAppDatabase): RemoteKeysDao {
+            return storyAppDatabase.remoteKeysDao()
         }
     }
 }
