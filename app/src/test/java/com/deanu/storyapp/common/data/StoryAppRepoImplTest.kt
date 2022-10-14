@@ -2,10 +2,7 @@ package com.deanu.storyapp.common.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.deanu.storyapp.common.data.api.StoryAppApi
-import com.deanu.storyapp.common.data.api.model.ApiAddNewStoryResponse
-import com.deanu.storyapp.common.data.api.model.ApiLoginResponse
-import com.deanu.storyapp.common.data.api.model.ApiRegisterResponse
-import com.deanu.storyapp.common.data.api.model.LoginResult
+import com.deanu.storyapp.common.data.api.model.*
 import com.deanu.storyapp.common.data.api.utils.FakeStoryApi
 import com.deanu.storyapp.common.data.preferences.utils.FakePreferences
 import com.deanu.storyapp.common.domain.model.User
@@ -269,5 +266,59 @@ class StoryAppRepoImplTest {
 
         // Then
         assertEquals(expectedMessage, actualMessage)
+    }
+
+    /* Get Story List Test */
+
+    @Test
+    fun `when success getStoryList with empty list, should return empty story list`() = runTest {
+        /* Given */
+        val token = "1234567890"
+        val expectedValue = emptyList<ApiStory>().size
+
+        // When
+        val response =
+            repository.getStoryList(
+                token,
+                StoryAppRepoImpl.INCLUDE_LOCATION
+            ) as NetworkResponse.Success<ApiStoryResponse, ApiStoryResponse>
+        val actualValue = response.body.storyList?.size
+
+        // Then
+        assertEquals(expectedValue, actualValue)
+    }
+
+    @Test
+    fun `when failed getStoryList, should return NetworkReponseError`() = runTest {
+        // Given
+        val token = "failed"
+
+        // When
+        val response =
+            repository.getStoryList(
+                token,
+                StoryAppRepoImpl.INCLUDE_LOCATION
+            )
+
+        // Then
+        assertThat(response, instanceOf(NetworkResponse.Error::class.java))
+    }
+
+    @Test
+    fun `when failed getStoryList, response message is failed`() = runTest {
+        // Given
+        val token = "failed"
+        val expectedValue = "failed"
+
+        // When
+        val response =
+            repository.getStoryList(
+                token,
+                StoryAppRepoImpl.INCLUDE_LOCATION
+            ) as NetworkResponse.ServerError<ApiStoryResponse, ApiStoryResponse>
+        val actualValue = response.body?.message
+
+        // Then
+        assertEquals(expectedValue, actualValue)
     }
 }

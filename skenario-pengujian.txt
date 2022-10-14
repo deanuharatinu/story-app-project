@@ -36,6 +36,12 @@
         - Saat Add New Story Gagal:
             - Responsenya NetworkResponse.Error
             - Response message = “failed”
+    - Get Story Lust
+        - Saat getStoyList Success:
+            - Saat responsenya empty list, terdapat isi response dengan size 0
+        - Saat getStoryList Failed:
+            - Responsenya NetworkResponse.Error
+            - Response message = “failed” 
 - **LoginViewModel**
     - Login User
         - Saat login success

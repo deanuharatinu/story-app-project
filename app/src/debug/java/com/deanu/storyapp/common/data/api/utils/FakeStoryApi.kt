@@ -40,11 +40,18 @@ class FakeStoryApi : StoryAppApi {
         location: Int
     ): NetworkResponse<ApiStoryResponse, ApiStoryResponse> {
         val response = mock(Response::class.java)
-        val responseSuccess = ApiStoryResponse(
-            false, "success",
-            listOf()
-        )
-        return NetworkResponse.Success(responseSuccess, response)
+        return if (token != "Bearer failed") {
+            val responseSuccess = ApiStoryResponse(
+                false, "success",
+                listOf()
+            )
+            NetworkResponse.Success(responseSuccess, response)
+        } else {
+            val responseError = ApiStoryResponse(
+                true, "failed", null
+            )
+            NetworkResponse.ServerError(responseError, response)
+        }
     }
 
     override suspend fun getStoryListWithPaging(
